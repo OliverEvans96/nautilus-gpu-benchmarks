@@ -108,9 +108,96 @@ assuming more GPUs means less wall clock time.
 
 And if he has time, see how a 2080-Ti and a 3090 compare to the 4090 and A100.
 
+* What the last guy did
+https://github.com/Rose-STL-Lab/GPU-Benchmark/tree/main
+
+** ST-UQ
+spatiotemporal uncertainty quantification
+with air quality / weather data
+
+** TF-net
+temporal filtering
+
+** deep-stpp
+Deep Spatiotemporal Point Process
+https://github.com/Rose-STL-Lab/DeepSTPP
+
+Zihao Zhou, Adam Yang, Ryan Rossi, Handong Zhao, Rose Yu
+
+To Appear in Annual Conference on Learning for Dynamics and Control (L4DC), 2022
+
+Abstract. Learning the dynamics of spatiotemporal events is a fundamental problem. Neural point processes enhance the expressivity of point process models with deep neural networks. However, most existing methods only consider temporal dynamics without spatial modeling. We propose Deep Spatiotemporal Point Process (DeepSTPP), a deep dynamics model that integrates spatiotemporal point processes. Our method is flexible, efficient, and can accurately forecast irregularly sampled events over space and time. The key construction of our approach is the nonparametric space-time intensity function, governed by a latent process. The intensity function enjoys closed-form integration for the density. The latent process captures the uncertainty of the event sequence. We use amortized variational inference to infer the latent process with deep networks. Using synthetic datasets, we validate our model can accurately learn the true intensity function. On real-world benchmark datasets, our model demonstrates superior performance over state-of-the-art baselines.
+
+** glow
+Generative Flow with Invertible 1x1 Convolutions
+https://arxiv.org/abs/1807.03039
+
+image generation pipeline
+
+
+* Plan
+
+Want to include:
+
+ML approaches:
+- traditional deep learning
+- image generation (stable diffusion)
+- LLMs (Llama)
+
+Stages:
+- inference
+- training
+
+** Existing benchmarks:
+*** Nvidia MLPerf / MLCommons
+Looks really solid, includes LLM & HPC workloads
+Overview: https://www.nvidia.com/en-us/data-center/resources/mlperf-benchmarks/
+
+MLPerf Submission Categories
+MLPerf Training v3.0 is the eighth edition for training and tested eight different workloads across a diversity of use cases, including computer vision, large language models, and recommenders.
+
+MLPerf Inference v3.0 is the seventh instantiation for inference and tested seven different use cases across seven different kinds of neural networks. Three of these use cases were for computer vision, one was for recommender systems, two were for language processing, and one was for medical imaging.
+
+MLPerf HPC v2.0 is the third iteration for HPC and tested three different scientific computing use cases, including climate atmospheric river identification, cosmology parameter prediction, and quantum molecular modeling.
+
+Website: https://mlcommons.org/en/
+Github org: https://github.com/mlcommons
+Tools repo: https://github.com/NVIDIA/mlperf-common
+
+**** Training
+Github repo: https://github.com/mlcommons/training
+paper: https://arxiv.org/abs/1910.01500
+results website: https://mlcommons.org/en/training-normal-30/
+
+**** Training: HPC
+Github repo: https://github.com/mlcommons/hpc
+results website: https://mlcommons.org/en/training-hpc-20/
+
+**** Inference: Datacenter
+Github repo: https://github.com/mlcommons/inference
+paper: https://arxiv.org/abs/1911.02549
+results website: https://mlcommons.org/en/inference-datacenter-30/
+
+***  Tensorflow benchmarks
+https://github.com/tensorflow/benchmarks
+  Also (older), https://github.com/aime-team/tf1-benchmarks
+
+*** a-benchmark python package
+https://pypi.org/project/ai-benchmark/
+
+
 * To Do
-** Investigate Paypal vs credit card (stripe) fees
+** DONE Investigate Paypal vs credit card (stripe) fees
 
 Stripe is better (2.9% vs 3.5%)
 
-** Create a small website with a "pay me" page w/ Stripe Checkout
+** DONE Create a small website with a "pay me" page w/ Stripe Checkout
+
+** Make a plan
+:LOGBOOK:
+CLOCK: [2023-08-25 Fri 15:37]--[2023-08-25 Fri 16:35] =>  0:58
+:END:
+- what benchmarks?
+- what resource configurations?
+
+  So that Tom can know what to put into his table
