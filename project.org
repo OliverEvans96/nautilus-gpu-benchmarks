@@ -1,0 +1,116 @@
+#+title: Nautilus AI/ML GPU Benchmarks
+
+* Conversation
+
+Oliver Evans, Yesterday 3:19 PM
+Yo
+Got a gig for me?
+I'm definitely interested. What's the project?
+
+John Graham, Yesterday 3:24 PM
+AI/ML benchmarking on a new 8x 4090 node 🙂
+compare it to other GPUs running the same workload 🙂
+Tom cant find any local users to run it 🙂
+everyone it too busy
+
+Oliver Evans, Yesterday 3:41 PM
+Great, sounds fun. I could start working on it later this week or early next week.
+
+John Graham, Yesterday 3:42 PM
+got any ideas what code to run ?
+Tom is in a hurry... He needs it for a grant extension proposal 🙂
+he needs it in next two weeks
+it should not take long...
+you can launch on multiple GPU types at the same time...
+
+Oliver Evans, Yesterday 3:47 PM
+Okay, sounds good. I'll put some thought into what to run. Have you run any LLMs on nautilus yet?
+I would think a mix of generative and classification/regression would be good.
+
+John Graham, Yesterday 3:48 PM
+I am playing with jupyter-ai :) https://github.com/jupyterlab/jupyter-ai
+i also asked Tom what the last guy used 🙂
+
+Oliver Evans, Yesterday 3:57 PM
+Nice
+
+John Graham, Yesterday 5:03 PM
+this is what was run last time
+
+John Graham, 8:40 AM
+This will make it easier :) https://github.com/Rose-STL-Lab/GPU-Benchmark/
+
+John Graham, 8:43 AM
+#+begin_src yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: benchmark
+  namespace: deep-forecast
+spec:
+  template:
+    spec:
+      containers:
+      - name: gpu-container
+        image: pytorch/pytorch:1.12.0-cuda11.3-cudnn8-runtime
+        command: ["/bin/bash","-c"]
+        args: ["cd /stpp-vol/GPU-Benchmark/;
+                pip install -r requirements.txt;
+                python deep_stpp.py 4;
+                python stuq.py;
+                python glow.py --num_workers 4;"]
+        volumeMounts:
+        - mountPath: /stpp-vol
+          name: stpp-vol
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+          requests:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+      restartPolicy: Never
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:
+                - NVIDIA-GeForce-RTX-3090
+      volumes:
+        - name: stpp-vol
+          persistentVolumeClaim:
+            claimName: stpp-vol%
+#+end_src
+
+Oliver Evans, 10:53 AM
+Thanks. I should have time to look at this tomorrow.
+
+John Graham, 5 min
+cool
+from Tom
+Would be good to test on
+1 4090
+2 4090
+8 4090
+assuming more GPUs means less wall clock time.
+
+Also
+1 A100 in our PC (40GB); little CPU
+1 A100 in Cat-II (80GB); big CPU
+2 A100
+8 A100
+assuming more GPUs means less wall clock time.
+
+And if he has time, see how a 2080-Ti and a 3090 compare to the 4090 and A100.
+
+* To Do
+** Investigate Paypal vs credit card (stripe) fees
+
+Stripe is better (2.9% vs 3.5%)
+
+** Create a small website with a "pay me" page w/ Stripe Checkout
