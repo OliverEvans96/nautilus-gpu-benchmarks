@@ -201,3 +201,5 @@ CLOCK: [2023-08-25 Fri 15:37]--[2023-08-25 Fri 16:35] =>  0:58
 - what resource configurations?
 
   So that Tom can know what to put into his table
+
+** Try to run MLCommons on nautilus
