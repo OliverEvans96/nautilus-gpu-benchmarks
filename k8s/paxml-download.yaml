@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: paxml-data-download
+  namespace: gpu-ml-benchmarks
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-downloader
+        image: google/cloud-sdk
+        command: ["gsutil", "rsync", "gs://mlperf-llm-public2/gpt3_spmd1x64x24_tpuv4-3072_v84_20221101/checkpoints/checkpoint_00004000", "/data/paxml-checkpoint/"]
+        volumeMounts:
+        - mountPath: /data
+          name: data-vol
+        env:
+        - name: RCLONE_CONFIG
+          value: /config/rclone/rclone.conf
+        resources:
+          limits:
+            memory: "8G"
+            cpu: "4"
+          requests:
+            memory: "8G"
+            cpu: "4"
+      restartPolicy: Never
+      volumes:
+      - name: data-vol
+        persistentVolumeClaim:
+          claimName: ml-benchmark-datasets
