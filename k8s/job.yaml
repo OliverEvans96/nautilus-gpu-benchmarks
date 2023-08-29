@@ -12,13 +12,13 @@ spec:
         command: ["nvidia-smi"]
         resources:
           limits:
-            nvidia.com/gpu: "1"
+            nvidia.com/gpu: "8"
             memory: "20G"
-            cpu: "4"
+            cpu: "30"
           requests:
-            nvidia.com/gpu: "1"
+            nvidia.com/gpu: "8"
             memory: "20G"
-            cpu: "4"
+            cpu: "30"
       restartPolicy: Never
 
       affinity:
