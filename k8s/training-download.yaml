@@ -9,7 +9,7 @@ spec:
       containers:
       - name: data-downloader
         image: rclone/rclone
-        command: ["rclone", "sync", "mlcommons-training-s3:", "/data/training/"]
+        command: ["rclone", "sync", "--progress", "mlcommons-training-s3:", "/data/training/"]
         volumeMounts:
         - mountPath: /data
           name: data-vol
