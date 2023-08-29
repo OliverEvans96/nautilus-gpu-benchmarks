@@ -1,0 +1,15 @@
+# NOTE: These credentials are posted in the public documentation. They are not secret.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mlcommons-training-s3-creds
+  namespace: gpu-ml-benchmarks
+data:
+  rclone.conf: >-
+    [mlcommons-training-s3]
+    type = s3
+    provider = LyveCloud
+    access_key_id = 3ZC41B4Z2WHM5DT2
+    secret_access_key = AK4NQQZV0NKFEJWJUZVPX5XQ0QNTXCGW
+    region = us-east-1
+    endpoint = s3.us-east-1.lyvecloud.seagate.com

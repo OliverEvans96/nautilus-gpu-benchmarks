@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-job-4090
+  namespace: gpu-ml-benchmarks
+spec:
+  template:
+    spec:
+      containers:
+      - name: gpu-container
+        image: fnndsc/dbg-nvidia-smi
+        command: ["nvidia-smi"]
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+          requests:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+      restartPolicy: Never
+
+      # NOTE: currently only being scheduled properly with nodeName, not with affinity.
+      # nodeName: k8s-4090-01.calit2.optiputer.net
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:
+                - NVIDIA-GeForce-RTX-4090
+
+      tolerations:
+      - key: node.kubernetes.io/unschedulable
+        operator: Exists
+        effect: NoSchedule

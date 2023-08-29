@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-data-download
+  namespace: gpu-ml-benchmarks
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-downloader
+        image: rclone/rclone
+        command: ["/bin/bash","-c"]
+        args: ["cd /stpp-vol/GPU-Benchmark/;
+                pip install -r requirements.txt;
+                python deep_stpp.py 4;
+                python stuq.py;
+                python glow.py --num_workers 4;"]
+        volumeMounts:
+        - mountPath: /stpp-vol
+          name: stpp-vol
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+          requests:
+            nvidia.com/gpu: "1"
+            memory: "20G"
+            cpu: "4"
+      restartPolicy: Never
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:
+                - NVIDIA-GeForce-RTX-3090
+      volumes:
+        - name: stpp-vol
+          persistentVolumeClaim:
+            claimName: stpp-vol%
