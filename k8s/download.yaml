@@ -9,35 +9,28 @@ spec:
       containers:
       - name: data-downloader
         image: rclone/rclone
-        command: ["/bin/bash","-c"]
-        args: ["cd /stpp-vol/GPU-Benchmark/;
-                pip install -r requirements.txt;
-                python deep_stpp.py 4;
-                python stuq.py;
-                python glow.py --num_workers 4;"]
+        command: ["rclone", "sync", "mlcommons-training-s3:", "/data/training/"]
         volumeMounts:
-        - mountPath: /stpp-vol
-          name: stpp-vol
+        - mountPath: /data
+          name: data-vol
+        - name: rclone-config
+          mountPath: /config/rclone/rclone.conf
+          subPath: rclone.conf
+        env:
+        - name: RCLONE_CONFIG
+          value: /config/rclone/rclone.conf
         resources:
           limits:
-            nvidia.com/gpu: "1"
-            memory: "20G"
+            memory: "8G"
             cpu: "4"
           requests:
-            nvidia.com/gpu: "1"
-            memory: "20G"
+            memory: "8G"
             cpu: "4"
       restartPolicy: Never
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: nvidia.com/gpu.product
-                operator: In
-                values:
-                - NVIDIA-GeForce-RTX-3090
       volumes:
-        - name: stpp-vol
-          persistentVolumeClaim:
-            claimName: stpp-vol%
+      - name: data-vol
+        persistentVolumeClaim:
+          claimName: benchmark-datasets
+      - name: rclone-config
+        configMap:
+          name: mlcommons-training-s3-creds
