@@ -30,7 +30,7 @@ spec:
       volumes:
       - name: data-vol
         persistentVolumeClaim:
-          claimName: benchmark-datasets
+          claimName: ml-benchmark-datasets
       - name: rclone-config
         configMap:
           name: mlcommons-training-s3-creds

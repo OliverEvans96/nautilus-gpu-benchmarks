@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: benchmark-datasets
+  name: ml-benchmark-datasets
   namespace: gpu-ml-benchmarks
 spec:
   storageClassName: rook-ceph-block
