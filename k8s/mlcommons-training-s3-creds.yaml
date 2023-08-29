@@ -5,7 +5,7 @@ metadata:
   name: mlcommons-training-s3-creds
   namespace: gpu-ml-benchmarks
 data:
-  rclone.conf: >-
+  rclone.conf: |
     [mlcommons-training-s3]
     type = s3
     provider = LyveCloud
