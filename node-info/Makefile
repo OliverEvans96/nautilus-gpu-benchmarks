@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: gpus.txt
+all: gpus.txt 4090-node.yaml a100-node.yaml
 
 clean:
 	rm -f *.yaml *.csv *.txt
@@ -14,4 +14,10 @@ node-gpus.csv: nodes.yaml
 
 # use tail to skip first 2 lines (gpu and null)
 gpus.txt: node-gpus.csv
-	xsv select gpu node-gpus.csv | sort | uniq | tail -n +3 > $@
+	xsv select gpu node-gpus.csv | sort | uniq -c | tail -n +3 > $@
+
+4090-node.yaml: nodes.yaml
+	cat nodes.yaml | yq -y '.items[] | select(.metadata.name == "k8s-4090-01.calit2.optiputer.net")' > $@
+
+a100-node.yaml: nodes.yaml
+	cat nodes.yaml | yq -y '.items[] | select(.metadata.name == "k8s-a100-01.calit2.optiputer.net")' > $@
