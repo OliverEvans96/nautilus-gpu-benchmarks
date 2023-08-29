@@ -21,8 +21,6 @@ spec:
             cpu: "4"
       restartPolicy: Never
 
-      # NOTE: currently only being scheduled properly with nodeName, not with affinity.
-      # nodeName: k8s-4090-01.calit2.optiputer.net
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -34,6 +32,6 @@ spec:
                 - NVIDIA-GeForce-RTX-4090
 
       tolerations:
-      - key: node.kubernetes.io/unschedulable
+      - key: nautilus.io/testing
         operator: Exists
         effect: NoSchedule
