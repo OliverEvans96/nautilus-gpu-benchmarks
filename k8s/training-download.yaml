@@ -9,13 +9,13 @@ spec:
       containers:
       - name: data-downloader
         image: peakcom/s5cmd
-        command: ["s5cmd", "sync", "s3://mlcommons-training-wg-s3/", "/data/mlcommons/training/"]
+        args: ["sync", "s3://mlcommons-training-wg-s3/gpt3/*", "/data/mlcommons/training/gpt3/"]
         volumeMounts:
         - mountPath: /data
           name: data-vol
         env:
         - name: S3_ENDPOINT_URL
-          value: s3.us-east-1.lyvecloud.seagate.com
+          value: https://s3.us-east-1.lyvecloud.seagate.com
         # NOTE: These credentials are posted in the public MLPerf documentation. They are not secret.
         - name: AWS_ACCESS_KEY_ID
           value: 3ZC41B4Z2WHM5DT2
