@@ -202,4 +202,30 @@ CLOCK: [2023-08-25 Fri 15:37]--[2023-08-25 Fri 16:35] =>  0:58
 
   So that Tom can know what to put into his table
 
-** Try to run MLCommons on nautilus
+** Inspect nodes
+:LOGBOOK:
+CLOCK: [2023-08-28 Mon 15:18]--[2023-08-28 Mon 16:05] =>  0:47
+:END:
+
+** Download datasets
+:LOGBOOK:
+CLOCK: [2023-08-29 Tue 23:54]--[2023-08-30 Wed 00:30] =>  0:36
+CLOCK: [2023-08-29 Tue 16:47]--[2023-08-29 Tue 17:08] =>  0:21
+CLOCK: [2023-08-29 Tue 15:23]--[2023-08-29 Tue 16:30] =>  1:07
+CLOCK: [2023-08-29 Tue 14:02]--[2023-08-29 Tue 14:25] =>  0:23
+CLOCK: [2023-08-28 Mon 16:09]--[2023-08-28 Mon 17:23] =>  1:14
+:END:
+
+** DONE Try to run a pod on 4090 node
+:LOGBOOK:
+CLOCK: [2023-08-29 Tue 12:55]--[2023-08-29 Tue 13:59] =>  1:04
+:END:
+
+** KILL Try to run MLCommons on nautilus
+:LOGBOOK:
+:END:
+
+** modify Zihao's benchmarks
+:LOGBOOK:
+CLOCK: [2023-08-30 Wed 16:18]--[2023-08-30 Wed 16:33] =>  0:15
+:END:
