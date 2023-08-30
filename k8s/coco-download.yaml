@@ -18,6 +18,9 @@ spec:
         - mountPath: /bin/download_dataset.sh
           name: download-script
           subPath: download_dataset.sh
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 0
         resources:
           limits:
             memory: "8G"
@@ -46,20 +49,28 @@ data:
   download_dataset.sh: |
     #!/bin/sh
 
+    set -uexo pipefail
+
     # Get COCO 2017 data sets
     WORKDIR=/data/coco
     mkdir -p $WORKDIR
     cd $WORKDIR
 
+    echo $PWD
+
+    echo Download 1
     curl -O https://dl.fbaipublicfiles.com/detectron/coco/coco_annotations_minival.tgz
     tar xzf coco_annotations_minival.tgz
 
+    echo Download 2
     curl -O http://images.cocodataset.org/zips/train2017.zip
     unzip train2017.zip
 
+    echo Download 3
     curl -O http://images.cocodataset.org/zips/val2017.zip
     unzip val2017.zip
 
+    echo Download 4
     curl -O http://images.cocodataset.org/annotations/annotations_trainval2017.zip
     unzip annotations_trainval2017.zip
 
