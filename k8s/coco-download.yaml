@@ -11,6 +11,7 @@ spec:
       - name: data-downloader
         image: curlimages/curl
         command: ["download_dataset.sh"]
+        # command: ["sleep", "3600"]
         volumeMounts:
         - mountPath: /data
           name: data-vol
@@ -43,12 +44,12 @@ metadata:
 data:
   # From https://github.com/mlcommons/training/blob/master/object_detection/download_dataset.sh
   download_dataset.sh: |
-    #!/bin/bash
+    #!/bin/sh
 
     # Get COCO 2017 data sets
-    cd /data
-    mkdir coco
-    cd coco
+    WORKDIR=/data/coco
+    mkdir -p $WORKDIR
+    cd $WORKDIR
 
     curl -O https://dl.fbaipublicfiles.com/detectron/coco/coco_annotations_minival.tgz
     tar xzf coco_annotations_minival.tgz
