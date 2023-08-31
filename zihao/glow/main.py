@@ -11,35 +11,14 @@ from torch.autograd import Variable, grad
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, utils
 
+from s3fs.core import S3FileSystem
+
 import sys
 from os.path import exists
 from model import Glow
 import shutil
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-parser = argparse.ArgumentParser(description="Glow trainer")
-parser.add_argument("--batch", default=16, type=int, help="batch size")
-# 200000
-parser.add_argument("--iter", default=100, type=int, help="maximum iterations")
-parser.add_argument(
-    "--n_flow", default=32, type=int, help="number of flows in each block"
-)
-parser.add_argument("--n_block", default=4, type=int, help="number of blocks")
-parser.add_argument(
-    "--no_lu",
-    action="store_true",
-    help="use plain convolution instead of LU decomposed version",
-)
-parser.add_argument(
-    "--affine", action="store_true", help="use affine coupling instead of additive"
-)
-parser.add_argument("--n_bits", default=5, type=int, help="number of bits")
-parser.add_argument("--lr", default=1e-4, type=float, help="learning rate")
-parser.add_argument("--img_size", default=64, type=int, help="image size")
-parser.add_argument("--temp", default=0.7, type=float, help="temperature of sampling")
-parser.add_argument("--n_sample", default=20, type=int, help="number of samples")
-
 
 def sample_data(path, batch_size, image_size):
     transform = transforms.Compose(
@@ -161,28 +140,24 @@ def train(args, model, optimizer):
                     optimizer.state_dict(), f"checkpoint/optim_{str(i + 1).zfill(6)}.pt"
                 )
 
+
 def download():
-    s3.download('glow/MNIST.zip', 'glow/MNIST.zip')
-    shutil.unpack_archive('glow/MNIST.zip', 'glow/MNIST/')
-
-
-if __name__ == "__main__":
-    from s3fs.core import S3FileSystem
     s3 = S3FileSystem(
-    key='V4870SVBWMMXDER34V7V',
-    secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-    client_kwargs={
-        'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-        'region_name': 'US'
-    }
+        key='V4870SVBWMMXDER34V7V',
+        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
+        client_kwargs={
+            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
+            'region_name': 'US'
+        }
     )
 
     if not exists('glow/MNIST.zip'):
-        download()
+        s3.download('glow/MNIST.zip', 'glow/MNIST.zip')
+        shutil.unpack_archive('glow/MNIST.zip', 'glow/MNIST/')
 
-    args = parser.parse_args()
-    print(args)
 
+
+def main(args):
     model_single = Glow(
         3, args.n_flow, args.n_block, affine=args.affine, conv_lu=not args.no_lu
     )
@@ -193,3 +168,36 @@ if __name__ == "__main__":
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     train(args, model, optimizer)
+
+
+def create_arg_parser():
+    parser = argparse.ArgumentParser(description="Glow trainer")
+    parser.add_argument("--batch", default=16, type=int, help="batch size")
+    # 200000
+    parser.add_argument("--iter", default=100, type=int, help="maximum iterations")
+    parser.add_argument(
+        "--n_flow", default=32, type=int, help="number of flows in each block"
+    )
+    parser.add_argument("--n_block", default=4, type=int, help="number of blocks")
+    parser.add_argument(
+        "--no_lu",
+        action="store_true",
+        help="use plain convolution instead of LU decomposed version",
+    )
+    parser.add_argument(
+        "--affine", action="store_true", help="use affine coupling instead of additive"
+    )
+    parser.add_argument("--n_bits", default=5, type=int, help="number of bits")
+    parser.add_argument("--lr", default=1e-4, type=float, help="learning rate")
+    parser.add_argument("--img_size", default=64, type=int, help="image size")
+    parser.add_argument("--temp", default=0.7, type=float, help="temperature of sampling")
+    parser.add_argument("--n_sample", default=20, type=int, help="number of samples")
+
+    return parser
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    print(args)
+
+    main()
