@@ -1,14 +1,19 @@
-stages:
-  - build
+# From https://docs.nationalresearchplatform.org/userdocs/development/gitlab/
+image: docker:git
 
-build-image:
-  stage: build
-  variables:
-    GIT_SUBMODULE_STRATEGY: recursive
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+default:
+  tags:
+    - docker
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build-and-push
+
+build-and-push-job:
+  stage: build-and-push
   script:
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-      # Tag images with git commit SHAs
-    - /kaniko/executor --context $CI_PROJECT_DIR/zihao --destination $CI_REGISTRY_IMAGE:latest --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --build-arg SRC_COMMIT=$CI_COMMIT_SHORT_SHA -v warn
+  - cd $CI_PROJECT_DIR/zihao && docker build . -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:latest
+  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  - docker push $CI_REGISTRY_IMAGE:latest
