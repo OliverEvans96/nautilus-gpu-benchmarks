@@ -17,10 +17,10 @@ def main():
         os.chdir(data_dir)
 
     s3 = S3FileSystem(
-        key='V4870SVBWMMXDER34V7V',
-        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
+        key='jMc2Bgylpg3eyeAHV5Cu',
+        secret='V3qP2YcCkpK6SJp7LOZlxdBTaQ2tR5i74xNEjDij',
         client_kwargs={
-            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
+            'endpoint_url': 'https://rosedata.ucsd.edu',
             'region_name': 'US'
         }
     )
