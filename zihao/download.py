@@ -1,5 +1,7 @@
 import os
 
+from s3fs.core import S3FileSystem
+
 import deep_stpp.main
 import glow.main
 import st_uq.main
@@ -14,10 +16,19 @@ def main():
         # Switch to that directory
         os.chdir(data_dir)
 
-    deep_stpp.main.download()
-    glow.main.download()
-    st_uq.main.download()
-    tf_net.main.download()
+    s3 = S3FileSystem(
+        key='V4870SVBWMMXDER34V7V',
+        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
+        client_kwargs={
+            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
+            'region_name': 'US'
+        }
+    )
+
+    deep_stpp.main.download(s3)
+    glow.main.download(s3)
+    st_uq.main.download(s3)
+    tf_net.main.download(s3)
 
 if __name__ == '__main__':
     main()

@@ -18,8 +18,6 @@ import torch.nn.functional as F
 from torch.utils import data
 from tqdm.auto import trange
 
-from s3fs.core import S3FileSystem
-
 from .model import LES
 from .penalty import DivergenceLoss
 from .train import Dataset, train_epoch, eval_epoch, test_epoch
@@ -45,19 +43,9 @@ model = LES(input_channels = input_length*2, output_channels = 2, kernel_size = 
             dropout_rate = dropout_rate, time_range = time_range).to(device)
 model = nn.DataParallel(model, device_ids=[0])
 
-def download():
-    s3 = S3FileSystem(
-        key='V4870SVBWMMXDER34V7V',
-        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-        client_kwargs={
-            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-            'region_name': 'US'
-        }
-    )
-
+def download(s3):
     if not exists('TF-net/rbc_data.pt'):
         s3.download('tfnet/rbc_data.pt', 'TF-net/rbc_data.pt')
-
 
 def data_gen():
     data = torch.load('TF-net/rbc_data.pt')

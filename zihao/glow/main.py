@@ -14,8 +14,6 @@ from torch.autograd import Variable, grad
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, utils
 
-from s3fs.core import S3FileSystem
-
 from .model import Glow
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -141,16 +139,7 @@ def train(args, model, optimizer):
                 )
 
 
-def download():
-    s3 = S3FileSystem(
-        key='V4870SVBWMMXDER34V7V',
-        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-        client_kwargs={
-            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-            'region_name': 'US'
-        }
-    )
-
+def download(s3):
     if not exists('glow/MNIST.zip'):
         s3.download('glow/MNIST.zip', 'glow/MNIST.zip')
         shutil.unpack_archive('glow/MNIST.zip', 'glow/MNIST/')

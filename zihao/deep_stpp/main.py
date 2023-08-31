@@ -15,8 +15,6 @@ from tqdm.contrib import tenumerate
 import torch
 from torch.utils.data import DataLoader
 
-from s3fs.core import S3FileSystem
-
 from .model import DeepSTPP, log_ft, t_intensity, s_intensity
 from .data.dataset import SlidingWindowWrapper
 from .data.synthetic import *
@@ -38,16 +36,7 @@ def imshow(fig):
     return display(SVG(fig.to_image(format="svg")))
 
 
-def download():
-    s3 = S3FileSystem(
-       key='V4870SVBWMMXDER34V7V',
-       secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-       client_kwargs={
-          'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-          'region_name': 'US'
-       }
-    )
-
+def download(s3):
     dataset = 'covid_nj_cases'
     key = f'processed/{dataset}.npz'
     bucket = 'deep-stpp'

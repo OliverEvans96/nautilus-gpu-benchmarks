@@ -11,18 +11,8 @@ from . import convlstm as md
 from . import convlstm_training as tr
 from . import evaluation as ev
 
-def download():
-    from s3fs.core import S3FileSystem
-    s3 = S3FileSystem(
-        key='V4870SVBWMMXDER34V7V',
-        secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-        client_kwargs={
-            'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-            'region_name': 'US'
-        }
-    )
-    if not exists('ST-UQ/data'):
-        os.mkdir('ST-UQ/data')
+def download(s3):
+    os.makedirs('ST-UQ/data', exist_ok=True)
 
     data_fn = [
         'beijing_aqi_stations.csv',
