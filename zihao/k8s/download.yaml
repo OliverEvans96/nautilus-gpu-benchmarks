@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: training-data-download
+  name: zihao-data-download
   namespace: gpu-ml-benchmarks
 spec:
   template:
