@@ -51,6 +51,11 @@ s3 = S3FileSystem(
    }
 )
 
+def download():
+    if not exists('TF-net/rbc_data.pt'):
+        s3.download('tfnet/rbc_data.pt', 'TF-net/rbc_data.pt')
+
+
 def data_gen():
     if not exists('TF-net/rbc_data.pt'):
         s3.download('tfnet/rbc_data.pt', 'TF-net/rbc_data.pt')

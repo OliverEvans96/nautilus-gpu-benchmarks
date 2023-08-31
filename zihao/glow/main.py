@@ -161,6 +161,10 @@ def train(args, model, optimizer):
                     optimizer.state_dict(), f"checkpoint/optim_{str(i + 1).zfill(6)}.pt"
                 )
 
+def download():
+    s3.download('glow/MNIST.zip', 'glow/MNIST.zip')
+    shutil.unpack_archive('glow/MNIST.zip', 'glow/MNIST/')
+
 
 if __name__ == "__main__":
     from s3fs.core import S3FileSystem
@@ -174,8 +178,7 @@ if __name__ == "__main__":
     )
 
     if not exists('glow/MNIST.zip'):
-        s3.download('glow/MNIST.zip', 'glow/MNIST.zip')
-        shutil.unpack_archive('glow/MNIST.zip', 'glow/MNIST/')
+        download()
 
     args = parser.parse_args()
     print(args)

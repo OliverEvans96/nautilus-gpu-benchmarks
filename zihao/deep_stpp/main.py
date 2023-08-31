@@ -55,19 +55,21 @@ logger.addHandler(ch)
 
 # pip install s3fs
 from s3fs.core import S3FileSystem
-s3 = S3FileSystem(
-   key='V4870SVBWMMXDER34V7V',
-   secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
-   client_kwargs={
-      'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
-      'region_name': 'US'
-   }
-)
 
-dataset = 'covid_nj_cases'
-key = f'processed/{dataset}.npz'
-bucket = 'deep-stpp'
-s3.download('{}/{}'.format(bucket, key), 'deep-stpp/covid_nj_cases.npz')
+def download():
+    s3 = S3FileSystem(
+       key='V4870SVBWMMXDER34V7V',
+       secret='ArxQb8fpO9b9zgMoqIGcnCRCCAQOZR5GRkt4gr9G',
+       client_kwargs={
+          'endpoint_url': 'https://us-southeast-1.linodeobjects.com',
+          'region_name': 'US'
+       }
+    )
+
+    dataset = 'covid_nj_cases'
+    key = f'processed/{dataset}.npz'
+    bucket = 'deep-stpp'
+    s3.download('{}/{}'.format(bucket, key), 'deep-stpp/covid_nj_cases.npz')
 
 npzf = np.load('deep-stpp/covid_nj_cases.npz', allow_pickle=True)
 
