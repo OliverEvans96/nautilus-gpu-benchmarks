@@ -13,7 +13,6 @@ from torchvision import datasets, transforms, utils
 
 import sys
 from os.path import exists
-sys.path.append("glow")
 from model import Glow
 import shutil
 

@@ -15,7 +15,6 @@ import sys
 from os.path import exists
 from tqdm.auto import trange
 
-sys.path.append("TF-net")
 from model import LES
 from torch.autograd import Variable
 from penalty import DivergenceLoss

@@ -1,5 +1,4 @@
 import sys
-sys.path.append("ST-UQ")
 
 from tqdm.auto import trange
 
