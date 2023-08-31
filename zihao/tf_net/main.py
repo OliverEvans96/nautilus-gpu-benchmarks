@@ -1,26 +1,28 @@
 from __future__ import unicode_literals, print_function, division
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from torch.utils import data
 import itertools
+from os.path import exists
 import re
 import random
 import time
 import sys
-from os.path import exists
+import warnings
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import torch
+from torch.autograd import Variable
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+from torch.utils import data
 from tqdm.auto import trange
 
-from model import LES
-from torch.autograd import Variable
-from penalty import DivergenceLoss
-from train import Dataset, train_epoch, eval_epoch, test_epoch
+from .model import LES
+from .penalty import DivergenceLoss
+from .train import Dataset, train_epoch, eval_epoch, test_epoch
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-import warnings
 warnings.filterwarnings("ignore")
 
 #best_params: kernel_size 3, learning_rate 0.001, dropout_rate 0, batch_size 120, input_length 25, output_length 4

@@ -1,6 +1,7 @@
 import numpy as np
 import csv
-import global_consts as cnst
+
+from . import global_consts as cnst
 
 
 # output format: a dictionary of ts: meteo grid

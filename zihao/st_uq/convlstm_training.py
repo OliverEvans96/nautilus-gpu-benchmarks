@@ -1,11 +1,13 @@
+import copy
+
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import load_data as ld
-import convlstm as md
-import evaluation as ev
-import copy
+
+from . import load_data as ld
+from . import convlstm as md
+from . import evaluation as ev
 
 device = torch.device('cuda')
 

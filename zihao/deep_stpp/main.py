@@ -17,10 +17,10 @@ from torch.utils.data import DataLoader
 
 from s3fs.core import S3FileSystem
 
-from model import DeepSTPP, log_ft, t_intensity, s_intensity
-from data.dataset import SlidingWindowWrapper
-from data.synthetic import *
-from util import *
+from .model import DeepSTPP, log_ft, t_intensity, s_intensity
+from .data.dataset import SlidingWindowWrapper
+from .data.synthetic import *
+from .util import *
 
 """The code below is used to set up customized training device on computer"""
 if torch.cuda.is_available():

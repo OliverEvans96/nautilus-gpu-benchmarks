@@ -2,8 +2,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import global_consts as cnst
-from load_data import load_bj_aqi_station_locations
+
+from . import global_consts as cnst
+from .load_data import load_bj_aqi_station_locations
 
 
 class ConvLSTM(nn.Module):

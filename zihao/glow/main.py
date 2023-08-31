@@ -1,9 +1,12 @@
+import argparse
+from os.path import exists
+import shutil
+import sys
+
 from tqdm.auto import tqdm
 import numpy as np
 from PIL import Image
 from math import log, sqrt, pi
-
-import argparse
 
 import torch
 from torch import nn, optim
@@ -13,10 +16,7 @@ from torchvision import datasets, transforms, utils
 
 from s3fs.core import S3FileSystem
 
-import sys
-from os.path import exists
-from model import Glow
-import shutil
+from .model import Glow
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

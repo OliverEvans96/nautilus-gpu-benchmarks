@@ -1,15 +1,15 @@
-import sys
-
-from tqdm.auto import trange
-
-import numpy as np
-import load_data as ld
-import convlstm as md
-import torch
-import convlstm_training as tr
-import evaluation as ev
 import os
 from os.path import exists
+import sys
+
+import numpy as np
+import torch
+from tqdm.auto import trange
+
+from . import load_data as ld
+from . import convlstm as md
+from . import convlstm_training as tr
+from . import evaluation as ev
 
 def download():
     from s3fs.core import S3FileSystem
