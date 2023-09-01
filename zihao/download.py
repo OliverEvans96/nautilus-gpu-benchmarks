@@ -8,6 +8,8 @@ import st_uq.main
 import tf_net.main
 
 def main():
+    print("Download")
+
     if 'DATA_DIR' in os.environ:
         data_dir = os.environ['DATA_DIR']
         print("Using data dir: {}".format(data_dir))
@@ -25,10 +27,16 @@ def main():
         }
     )
 
+    print("deep_stpp")
     deep_stpp.main.download(s3)
+    print("glow")
     glow.main.download(s3)
+    print("st_uq")
     st_uq.main.download(s3)
+    print("tf_net")
     tf_net.main.download(s3)
+
+    print("Done")
 
 if __name__ == '__main__':
     main()
