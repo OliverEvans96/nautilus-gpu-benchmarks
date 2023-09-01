@@ -123,7 +123,8 @@ def train(args, model, optimizer):
             if i % 1000 == 0:
                 with torch.no_grad():
                     utils.save_image(
-                        model_single.reverse(z_sample).cpu().data,
+                        model.reverse(z_sample).cpu().data,
+                        # original: model_single.reverse(z_sample).cpu().data,
                         f"sample/{str(i + 1).zfill(6)}.png",
                         normalize=True,
                         nrow=10,
